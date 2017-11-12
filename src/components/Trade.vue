@@ -13,9 +13,11 @@
 <script>
   import LogUtils from '../util/LogUtils'
 
+   let dateList= ['test']
+   let valueList= [0]
   export default {
     name: 'Trade',
-    mounted () {
+    created () {
       let symbol = this.$route.params.symbol
       let quote = window.symbolList.filter((item) => item.Symbol === symbol)[0]
       LogUtils.d(quote)
@@ -32,19 +34,16 @@
       getHistoryData: function (msg) {
         LogUtils.d(msg)
         let list = JSON.parse(msg)
-        this.dateList = list.map((item) => {
+        dateList = list.map((item) => {
           return item.sDate
         })
-        this.valueList = list.map((item) => {
+        valueList = list.map((item) => {
           return item.Close
         })
       }
     },
     data () {
       return {
-
-        dateList: ['test'],
-        valueList: [0],
         option: {
           // Make gradient line here
           visualMap: [{
@@ -59,8 +58,8 @@
             seriesIndex: 1,
             dimension: 0,
             min: 0,
-            max: this.dateList.length - 1
-          }],
+            max: dateList.length - 1
+          }],*/
 
           title: [{
             left: 'center',
@@ -74,16 +73,18 @@
             trigger: 'axis'
           },
           xAxis: [{
-            data: this.dateList
+            data: dateList
           }, {
-            data: this.dateList,
+            data: dateList,
             gridIndex: 1
           }],
           yAxis: [{
-            splitLine: {show: false}
+            splitLine: {show: false},
+            min:(value)=>{value.min}
           }, {
             splitLine: {show: false},
-            gridIndex: 1
+            gridIndex: 1,
+            min:Math.min(...valueList)
           }],
           grid: [{
             bottom: '60%'
@@ -93,11 +94,11 @@
           series: [{
             type: 'line',
             showSymbol: false,
-            data: this.valueList
+            data: valueList
           }, {
             type: 'line',
             showSymbol: false,
-            data: this.valueList,
+            data: valueList,
             xAxisIndex: 1,
             yAxisIndex: 1
           }]
@@ -105,10 +106,14 @@
       }
     }
   }
+
 </script>
 <style scoped>
   .chart {
     width: 100%;
     height: 400px;
   }
+
+
+
 </style>

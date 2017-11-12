@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Mint from 'mint-ui'
 import axios from 'axios'
+import io from 'socket.io-client'
 import VueSocketio from 'vue-socket.io'
 import ECharts from 'vue-echarts/components/ECharts.vue'
 
@@ -24,7 +25,11 @@ import 'echarts/lib/component/visualMap'
 
 window.symbolList = []
 
-Vue.use(VueSocketio, 'https://dev.qihuofa.com:9093')
+const socketInstance = io('https://www.qihuofa.com:9093', {
+  transports: ['websocket']
+})
+
+Vue.use(VueSocketio, socketInstance)
 
 Vue.component('chart', ECharts)
 
