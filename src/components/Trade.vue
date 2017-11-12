@@ -59,7 +59,7 @@
             dimension: 0,
             min: 0,
             max: dateList.length - 1
-          }],*/
+          }],
 
           title: [{
             left: 'center',
