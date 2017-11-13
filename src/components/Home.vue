@@ -15,10 +15,10 @@
     name: 'Home',
     data () {
       return {
-        symbolList: window.symbolList
+        symbolList: []
       }
     },
-    mounted () {
+    created () {
       LogUtils.d('emit getSymbolList')
       this.$socket.emit('getSymbolList')
     },
@@ -28,18 +28,21 @@
         this.symbolList.forEach((item, index) => {
           if (quote.Symbol === item.Symbol) {
             this.symbolList.splice(index, 1, quote)
+            localStorage.setItem(item.Symbol, item)
           }
         })
       },
       getSymbolList: function (msg) {
         LogUtils.d(msg)
-        JSON.parse(msg).forEach((item) => {
-          this.symbolList.push(item)
+        let list = JSON.parse(msg)
+        this.symbolList.splice(0, this.symbolList.length)
+        this.symbolList.push(...list)
+        list.forEach((item) => {
+          localStorage.setItem(item.Symbol, item)
         })
         LogUtils.d(this.symbolList)
       }
-    },
-    methods: {}
+    }
   }
 </script>
 
