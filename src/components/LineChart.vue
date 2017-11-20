@@ -1,5 +1,7 @@
 <template>
-  <chart class="chart" :options="option"></chart>
+  <div style="width: 100%">
+    <chart class="chart" :options="option"></chart>
+  </div>
 </template>
 <script>
   import LogUtils from '../util/LogUtils'
@@ -13,7 +15,7 @@
       let s = JSON.stringify({
         symbol: symbol,
         exchange: quote.Exchange,
-        starttime: '2017-11-13 06:00',
+        starttime: '2017-11-20 06:00',
         datatype: 'min'
       })
       LogUtils.d(s)
@@ -75,7 +77,7 @@
 </script>
 <style scoped>
   .chart {
-    width: 100%;
+    width: 500px;
     height: 400px;
   }
 </style>

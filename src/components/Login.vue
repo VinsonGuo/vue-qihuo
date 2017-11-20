@@ -11,6 +11,7 @@
 <
 <script>
   import qs from 'qs'
+  import { Toast } from 'mint-ui'
   import HttpUtils from '../util/HttpUtils'
   import LogUtils from '../util/LogUtils'
 
@@ -33,10 +34,12 @@
           .then(HttpUtils.handleResponse)
           .then((response) => {
             console.log(response)
+            Toast('登录成功')
             this.$router.replace('/home')
           })
           .catch(e => {
             LogUtils.e(e)
+            Toast(e.message)
           })
       }
     }

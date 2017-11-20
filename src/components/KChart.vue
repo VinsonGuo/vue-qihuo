@@ -1,13 +1,15 @@
 <template>
-  <chart class="chart" :options="option" ref="kchart"></chart>
+  <div style="width: 100%">
+    <chart class="chart" :options="option"></chart>
+  </div>
 </template>
 <script>
   import LogUtils from '../util/LogUtils'
 
-  var upColor = '#00da3c'
-  var downColor = '#ec0000'
+  const upColor = '#00da3c'
+  const downColor = '#ec0000'
 
-  let data = {values: [], categoryData: []}
+  let data = {}
   export default {
     props: ['symbol'],
     created () {
@@ -17,7 +19,7 @@
       let s = JSON.stringify({
         symbol: symbol,
         exchange: quote.Exchange,
-        starttime: '2017-11-13 06:00',
+        starttime: '2017-11-20 06:00',
         datatype: 'min'
       })
       LogUtils.d(s)
@@ -96,14 +98,14 @@
               axisLabel: {show: false}
             }
           ],
-          dataZoom: [
-            {
-              type: 'inside',
-              xAxisIndex: [0, 1],
-              start: 90,
-              end: 100
-            }
-          ],
+          /* dataZoom: [
+             {
+               type: 'inside',
+               xAxisIndex: [0, 1],
+               start: 90,
+               end: 100
+             }
+           ],*/
           series: [
             {
               name: 'K线图',
@@ -176,10 +178,10 @@
   }
 
   function splitData (rawData) {
-    var categoryData = []
-    var values = []
-    var volumes = []
-    for (var i = 0; i < rawData.length; i++) {
+    let categoryData = []
+    let values = []
+    let volumes = []
+    for (let i = 0; i < rawData.length; i++) {
       categoryData.push(rawData[i].splice(0, 1)[0])
       values.push(rawData[i])
       volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? 1 : -1])
@@ -193,25 +195,24 @@
   }
 
   function calculateMA (dayCount, data) {
-    var result = []
-    for (var i = 0, len = data.values.length; i < len; i++) {
+    let result = []
+    for (let i = 0, len = data.values.length; i < len; i++) {
       if (i < dayCount) {
         result.push('-')
         continue
       }
-      var sum = 0
-      for (var j = 0; j < dayCount; j++) {
+      let sum = 0
+      for (let j = 0; j < dayCount; j++) {
         sum += data.values[i - j][1]
       }
       result.push(+(sum / dayCount).toFixed(3))
     }
     return result
   }
-
 </script>
 <style scoped>
   .chart {
-    width: 100%;
+    width: 500px;
     height: 400px;
   }
 </style>
